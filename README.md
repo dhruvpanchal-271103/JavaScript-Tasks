@@ -1,2 +1,1 @@
-JavaScript-Tasks
-
+JavaScript simple and basic tasks
