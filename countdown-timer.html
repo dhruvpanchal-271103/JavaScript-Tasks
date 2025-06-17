@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Tasks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex h-screen bg-gray-600">
+ 
+    <div class="w-1/4 bg-gray-800 text-white p-4 fixed right-0 h-full text-center">
+
+
+        <h2 class="text-4xl font-bold my-4">Tools using JS</h2>
+
+
+        <ul class="text-xl space-y-12 my-20 text-left ml-20">
+            <li><a href="to-do-list.html" class="hover:text-yellow-400">To-Do List</a></li>
+            <li><a href="calculator.html" class="hover:text-yellow-400">Calculator</a></li>
+            <li><a href="currency-converter.html" class="hover:text-yellow-400">Currency Converter</a></li>
+            <li><a href="clock.html" class="hover:text-yellow-400">Digital Clock</a></li>
+            <li><a href="countdown-timer.html" class="hover:text-yellow-400">Countdown Timer</a></li>
+            <li><a href="stopwatch.html" class="hover:text-yellow-400">Stopwatch</a></li>
+            <li><a href="user-crud.html" class="hover:text-yellow-400">User CRUD</a></li>
+            <li><a href="Form-validation.html" class="hover:text-yellow-400">Form Validation</a></li>
+        </ul>
+
+
+    </div>
+    <div class="flex flex-col justify-center items-center text-center p-4 w-3/4">
+
+        <div class="border border-2 p-6">
+
+            <h2 class="text-3xl font-semibold text-white">- DAYS LEFT OF 2025 YEAR -</h2>
+
+            <div class="flex items-center justify-center text-green-500 text-5xl font-bold space-x-4 mt-6">
+                <span id="days">0000</span> <span>:</span>
+                <span id="hours">00</span> <span>:</span>
+                <span id="minutes">00</span> <span>:</span>
+                <span id="seconds">00</span>
+            </div>
+
+            <div class="flex text-white text-xl mt-2">
+                <span class="mx-10">day</span>
+                <span class="mx-14">hrs</span>
+                <span class="mx-4">min</span>
+                <span class="ml-12">sec</span>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script>
+
+        function startContdown() {
+            const yearEndDate = new Date("December 31, 2025 23:59:59").getTime();
+
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const timeLeft = yearEndDate - now;
+                if (timeLeft < 0) {
+                    document.getElementById("days").innerText = "0000";
+                    document.getElementById("hours").innerText = "00";
+                    document.getElementById("minutes").innerText = "00";
+                    document.getElementById("seconds").innerText = "00";
+                    return;
+                }
+
+                const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                document.getElementById("days").innerText = days.toString().padStart(4, '0');
+                document.getElementById("hours").innerText = hours.toString().padStart(2, '0');
+                document.getElementById("minutes").innerText = minutes.toString().padStart(2, '0');
+                document.getElementById("seconds").innerText = seconds.toString().padStart(2, '0');
+
+            }
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+        }
+        startContdown();
+    </script>
+</body>
+
+</html>

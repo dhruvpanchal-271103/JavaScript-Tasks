@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Tasks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex h-screen bg-gray-100">
+
+    <div class="text-white w-1/4 bg-gray-800 p-4 fixed right-0 h-full text-center">
+        <h2 class="text-4xl font-bold my-4">Tools using JS</h2>
+        <ul class="text-xl space-y-12 my-20 text-left ml-20">
+            <li><a href="to-do-list.html" class="hover:text-yellow-400">To-Do List</a></li>
+            <li><a href="calculator.html" class="hover:text-yellow-400">Calculator</a></li>
+            <li><a href="currency-converter.html" class="hover:text-yellow-400">Currency Converter</a></li>
+            <li><a href="clock.html" class="hover:text-yellow-400">Digital Clock</a></li>
+            <li><a href="countdown-timer.html" class="hover:text-yellow-400">Countdown Timer</a></li>
+            <li><a href="stopwatch.html" class="hover:text-yellow-400">Stopwatch</a></li>
+            <li><a href="user-crud.html" class="hover:text-yellow-400">User CRUD</a></li>
+            <li><a href="Form-validation.html" class="hover:text-yellow-400">Form Validation</a></li>
+        </ul>
+    </div>
+
+    <div class="w-3/4 p-10 bg-gray-600">
+        <div class="bg-gray-800 p-8 rounded-lg shadow-lg border border-black">
+            <div class="flex justify-between">
+                <h2 class="text-4xl text-white font-bold mb-6">User Management</h2>
+                <button onclick="openPopup()"
+                    class="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 mb-4">
+                    Add User
+                </button>
+            </div>
+
+            <div class="flex gap-4 mb-4">
+
+                <input id="search" type="text" placeholder="Search by name or e email" class="border p-2 rounded w-1/3">
+
+                <select id="filterCountry" class="border p-2 rounded w-1/4">
+                    <option value="">Select Country</option>
+                    <option value="India">India</option>
+                    <option value="United States">United States</option>
+                    <option value="Canada">Canada</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Australia">Australia</option>
+                </select>
+
+                <select id="filterState" class="border p-2 rounded w-1/4">
+                    <option value="">Select State</option>
+                </select>
+
+                <select id="filterCity" class="border p-2 rounded w-1/4">
+                    <option value="">Select City</option>
+                </select>
+
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full border border-gray-300 rounded-lg shadow-sm bg-gray-50">
+                    <thead>
+                        <tr class="bg-gray-500 text-gray-900 text-xl font-bold">
+                            <th class="border p-4">Name</th>
+                            <th class="border p-4">Email</th>
+                            <th class="border p-4">Country</th>
+                            <th class="border p-4">State</th>
+                            <th class="border p-4">City</th>
+                            <th class="border p-4">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userTable" class="text-white text-center bg-gray-400"></tbody>
+                </table>
+            </div>
+
+            <div class="mt-6 flex justify-between">
+                <button id="prevPage"
+                    class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-blue-600">Previous</button>
+                <span id="pageNumber" class="text-white font-medium"></span>
+                <button id="nextPage"
+                    class="bg-blue-500 text-white px-6 py-2 rounded-lg shadow-lg hover:bg-blue-600">Next</button>
+            </div>
+        </div>
+
+        <!-- Popup Form -->
+        <div id="popup" class="w-3/4 fixed inset-0 bg-gray-900 bg-opacity-50 flex justify-center items-center hidden">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-1/3">
+                <h2 id="popupTitle" class="text-xl font-bold mb-4">Add User</h2>
+                <form id="userForm" class="space-y-4">
+                    <input type="hidden" id="editIndex">
+                    <input type="text" id="name" placeholder="Name" class="border p-2 rounded w-full" required>
+                    <input type="email" id="email" placeholder="Email" class="border p-2 rounded w-full" required>
+                    <input type="text" id="country" placeholder="Country" class="border p-2 rounded w-full" required>
+                    <input type="text" id="state" placeholder="State" class="border p-2 rounded w-full" required>
+                    <input type="text" id="city" placeholder="City" class="border p-2 rounded w-full" required>
+                    <div class="flex justify-between">
+                        <button type="button" onclick="closePopup()" class="bg-gray-500 text-white px-4 py-2 rounded">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+                            Save User
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let userList = []
+        const locationData = {
+            'India': {
+                'Gujarat': ['Ahmedabad', 'Gandhinagar', 'Rajkot', 'Surat'],
+                'Maharashtra': ['Pune', 'Mumbai', 'Nagpur', 'Thane'],
+                'Delhi': ['New Delhi', 'Noida', 'Gurgaon']
+            },
+
+            'United States': {
+                'Texas': ['Houston', 'Dallas', 'Austin'],
+                'California': ['Los Angeles', 'San Francisco', 'San Diego']
+            },
+
+            "Canada": {
+                "Ontario": ["Toronto", "Ottawa", "Mississauga"],
+                "British Columbia": ["Vancouver", "Victoria", "Surrey"]
+            },
+
+            "United kingdom": {
+                "England": ["London", "Manchester", "Birmingham"],
+                "Scotland": ["Edinburgh", "Glasgow", "Aberdeen"]
+            },
+
+            "Australia": {
+                "Victoria": ["Melbourne ", "Geelong", "Ballarat"],
+                "Queensland": ["Mackay", "Maryborough", "Gympie"],
+                "New South Wales": ["Sydney"]
+            }
+
+        };
+
+        document.getElementById('filterCountry').addEventListener('change', function () {
+            const selectedCountry = this.value;
+            const stateDropDown = document.getElementById('filterState');
+            stateDropDown.innerHTML = '<option value="">Select State</option>';
+
+            if (selectedCountry && locationData[selectedCountry]) {
+                Object.keys(locationData[selectedCountry]).forEach(state => {
+                    const option = document.createElement('option');
+                    option.value = state;
+                    option.textContent = state;
+                    stateDropDown.appendChild(option);
+                });
+            }
+
+            document.getElementById('filterCity').innerHTML = '<option value="">Select City</option>';
+        });
+
+
+        document.getElementById('filterState').addEventListener('change', function () {
+            const selectedCountry = document.getElementById('filterCountry').value;
+            const selectedState = this.value;
+            const cityDropDown = document.getElementById('filterCity');
+            cityDropDown.innerHTML = '<option value="">Select City</option>';
+
+            if (selectedCountry && selectedState && locationData[selectedCountry][selectedState]) {
+                locationData[selectedCountry][selectedState].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    cityDropDown.appendChild(option);
+                });
+            }
+        });
+
+
+
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        console.log(users)
+
+        let currentPage = 1;
+        const userPerPage = 6;
+
+        function openPopup() {
+            document.getElementById('popup').classList.remove('hidden');
+        }
+
+        function closePopup() {
+            document.getElementById('popup').classList.add('hidden');
+            document.getElementById('userForm').reset();
+            document.getElementById('editIndex').value = "";
+        }
+
+        function renderTable() {
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            const searchTerm = document.getElementById('search').value.toLowerCase();
+            const selectedCountry = document.getElementById('filterCountry').value;
+            const selectedState = document.getElementById('filterState').value;
+            const selectedCity = document.getElementById('filterCity').value;
+            const start = (currentPage - 1) * userPerPage;
+
+            let filteredUsers = users.filter(user =>
+                (user.name.toLowerCase().includes(searchTerm) ||
+                    user.email.toLowerCase().includes(searchTerm)) &&
+                (selectedCountry === "" || user.country === selectedCountry) &&
+                (selectedState === "" || user.state === selectedState) &&
+                (selectedCity === "" || user.city === selectedCity)
+            );
+
+            const paginatedUsers = filteredUsers.slice(start, start + userPerPage);
+            const tableBody = document.getElementById('userTable');
+            tableBody.innerHTML = "";
+
+            paginatedUsers.forEach((user, index) => {
+
+                const row = `
+                    <tr class='border'>
+                        <td class='border p-2'>${user.name}</td>
+                        <td class='border p-2'>${user.email}</td>
+                        <td class='border p-2'>${user.country}</td>
+                        <td class='border p-2'>${user.state}</td>
+                        <td class='border p-2'>${user.city}</td>
+                        <td class='border p-2'>
+                        <button onclick="editUser('${user.id}')" class="bg-green-500 text-white px-2 py-1 rounded">Edit</button>
+                        <button onclick="deleteUser('${user.id}')" class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+                        </td>
+                    </tr>`;
+
+                tableBody.innerHTML += row;
+            });
+
+            document.getElementById('pageNumber').textContent = `Page ${currentPage} of ${Math.ceil(filteredUsers.length / userPerPage) || 1}`;
+            updatePaginationInfo(filteredUsers);
+        }
+
+        document.getElementById('search').addEventListener('input', () => {
+            currentPage = 1;
+            renderTable();
+        });
+
+        document.getElementById('filterCountry').addEventListener('change', () => {
+            currentPage = 1;
+            renderTable();
+        });
+
+        document.getElementById('filterState').addEventListener('change', () => {
+            currentPage = 1;
+            renderTable();
+        });
+
+        document.getElementById('filterCity').addEventListener('change', () => {
+            currentPage = 1;
+            renderTable();
+        })
+
+        document.getElementById('userForm').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            const editIndex = document.getElementById('editIndex').value;
+
+            const user = {
+                id: editIndex || "id" + Math.random().toString(16).slice(2),
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                country: document.getElementById('country').value,
+                state: document.getElementById('state').value,
+                city: document.getElementById('city').value
+            };
+            if (editIndex) {
+
+                let index = users.findIndex(u => u.id === editIndex);
+                if (index !== -1) {
+                    users[index] = user;
+                }
+            } else {
+
+                users.push(user);
+            }
+
+            localStorage.setItem('users', JSON.stringify(users));
+            renderTable();
+            closePopup();
+        });
+
+        function editUser(id) {
+
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+
+
+            let selectedUser = users.find(user => user.id === id);
+
+            if (!selectedUser) {
+                console.error(`User not found with ID: ${id}`);
+                return;
+            }
+
+
+            document.getElementById('name').value = selectedUser.name;
+            document.getElementById('email').value = selectedUser.email;
+            document.getElementById('country').value = selectedUser.country;
+            document.getElementById('state').value = selectedUser.state;
+            document.getElementById('city').value = selectedUser.city;
+            document.getElementById('editIndex').value = id;
+
+            openPopup();
+        }
+
+
+        function deleteUser(id) {
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            users = users.filter(user => user.id !== id);
+            localStorage.setItem('users', JSON.stringify(users));
+            renderTable();
+        }
+
+
+        function updatePaginationInfo(filteredUsers) {
+            const totalPages = Math.ceil(filteredUsers.length / userPerPage) || 1;
+            document.getElementById('pageNumber').textContent = `Page ${currentPage} of ${totalPages}`;
+
+            document.getElementById('prevPage').disabled = currentPage === 1;
+            document.getElementById('nextPage').disabled = currentPage >= totalPages;
+
+            document.getElementById('prevPage').classList.toggle('opacity-50', currentPage === 1);
+            document.getElementById('prevPage').classList.toggle('cursor-not-allowed', currentPage === 1);
+
+            document.getElementById('nextPage').classList.toggle('opacity-50', currentPage >= totalPages);
+            document.getElementById('nextPage').classList.toggle('cursor-not-allowed', currentPage >= totalPages);
+        }
+
+        document.getElementById('prevPage').addEventListener('click', function () {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        });
+
+        document.getElementById('nextPage').addEventListener('click', function () {
+            if (currentPage * userPerPage < users.length) {
+                currentPage++;
+                renderTable();
+            }
+        });
+
+        document.addEventListener("DOMContentLoaded", renderTable);
+    </script>
+
+
+</body>
+
+</html>

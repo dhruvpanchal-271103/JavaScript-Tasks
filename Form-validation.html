@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Tasks</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex bg-gray-600 text-white">
+  <div class="w-1/4 bg-gray-800 p-4 fixed right-0 h-full text-center">
+    <h2 class="text-4xl font-bold my-4">Tools using JS</h2>
+    <ul class="text-xl space-y-12 my-20 text-left ml-20">
+      <li><a href="to-do-list.html" class="hover:text-yellow-400">To-Do List</a></li>
+      <li><a href="calculator.html" class="hover:text-yellow-400">Calculator</a></li>
+      <li><a href="currency-converter.html" class="hover:text-yellow-400">Currency Converter</a></li>
+      <li><a href="clock.html" class="hover:text-yellow-400">Digital Clock</a></li>
+      <li><a href="countdown-timer.html" class="hover:text-yellow-400">Countdown Timer</a></li>
+      <li><a href="stopwatch.html" class="hover:text-yellow-400">Stopwatch</a></li>
+      <li><a href="user-crud.html" class="hover:text-yellow-400">User CRUD</a></li>
+      <li><a href="Form-validation.html" class="hover:text-yellow-400">Form Validation</a></li>
+    </ul>
+  </div>
+
+  <div class="w-3/4 flex justify-center align-center mt-4">
+    <div
+      class="bg-gradient-to-br from-indigo-700 via-purple-400 to-red-400 text-black p-8 rounded-lg shadow-xl max-w-5xl w-full">
+      <h1 class="text-3xl font-bold text-center mb-8">User Registration Form</h1>
+      <form id="form" class="gap-4 grid grid-cols-2 text-xl">
+
+
+        <div class="space-y-2">
+          <label for="fname" class="block font-medium">First Name:</label>
+          <input type="text" id="fname" name="fname" class="border-gray-300 border rounded-lg w-full p-2" required />
+          <p id="nameError" class="error hidden">Name must be at least 3 characters long.</p>
+        </div>
+
+        <div class="space-y-2">
+          <label for="lname" class="block font-medium">Last Name:</label>
+          <input type="text" id="lname" name="lname" class="border-gray-300 border rounded-lg w-full p-2" />
+          <p id="lnameError" class="error hidden">Name must be at least 3 characters long.</p>
+        </div>
+
+        <div class="space-y-2">
+          <label for="email" class="block font-medium">Email:</label>
+          <input type="email" id="email" name="email" class="border-gray-300 border rounded-lg w-full p-2" />
+          <p id="emailError" class="error hidden">Please enter a valid email address.</p>
+        </div>
+
+
+        <div class="">
+          <label class="font-medium">Gender:</label>
+          <div class="flex space-x-4 mt-4">
+            <label><input type="radio" name="gender" value="male" class="mr-1"> Male</label>
+            <label><input type="radio" name="gender" value="female" class="mr-1"> Female</label>
+            <label><input type="radio" name="gender" value="other" class="mr-1"> Other</label>
+          </div>
+          <p id="genderError" class="error hidden">Please select your gender.</p>
+        </div>
+
+
+        <div class="space-y-2">
+          <label for="mobile" class="block font-medium">Mobile Number:</label>
+          <input type="text" id="mobile" name="mobile" class="border-gray-300 border rounded-lg w-full p-2" />
+          <p id="mobileError" class="error hidden">Mobile number must be 10 digits.</p>
+        </div>
+
+
+        <div class="space-y-2">
+          <label for="country" class="block font-medium">Country:</label>
+          <input type="text" id="country" name="country" class="border-gray-300 border rounded-lg w-full p-2" />
+        </div>
+
+
+        <div class="space-y-2">
+          <label for="state" class="block font-medium">State:</label>
+          <input type="text" id="state" name="state" class="border-gray-300 border rounded-lg w-full p-2" />
+        </div>
+
+
+        <div class="space-y-2">
+          <label for="city" class="block font-medium">City:</label>
+          <input type="text" id="city" name="city" class="border-gray-300 border rounded-lg w-full p-2" />
+        </div>
+
+
+        <div class="space-y-2">
+          <label for="pincode" class="block font-medium">Pincode:</label>
+          <input type="text" id="pincode" name="pincode" class="border-gray-300 border rounded-lg w-full p-2" />
+          <p id="pincodeError" class="error hidden">Pincode must be 6 digits.</p>
+        </div>
+
+
+        <div class="space-y-2">
+          <label for="bio" class="block font-medium">Bio Description:</label>
+          <textarea id="bio" name="bio" rows="3" class="border-gray-300 border rounded-lg w-full p-2"></textarea>
+        </div>
+
+
+
+      </form>
+      <div class="mt-6 flex justify-evenly text-lg">
+        <button type="submit" id="submitButton" class="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-700">
+          Register
+        </button>
+        <button type="reset" id="resetButton" class="bg-blue-600 text-white py-2 px-8 rounded-lg hover:bg-blue-700">
+          Reset
+        </button>
+      </div>
+      <p id="successMessage" class="text-lg font-bold text-green-700 hidden text-center mt-4">Form submitted
+        successfully!</p>
+
+    </div>
+
+
+    <script>
+
+      document.getElementById('submitButton').addEventListener('click', function (event) {
+        event.preventDefault();  // Prevent default form submission
+
+        let valid = true;
+
+
+
+        const fname = document.getElementById('fname').value;
+        if (fname.length < 3) {
+          document.getElementById('nameError').classList.remove('hidden');
+          valid = false;
+        } else {
+          document.getElementById('nameError').classList.add('hidden');
+        }
+
+        const lname = document.getElementById('lname').value;
+        if (lname.length < 3) {
+          document.getElementById('lnameError').classList.remove('hidden');
+          valid = false;  // Fixed typo from "valiec" to "valid"
+        } else {
+          document.getElementById('lnameError').classList.add('hidden');
+        }
+
+        const email = document.getElementById('email').value;
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+          document.getElementById("emailError").classList.remove('hidden');
+          valid = false;
+        } else {
+          document.getElementById('emailError').classList.add('hidden');
+        }
+
+        const gender = document.querySelector('input[name="gender"]:checked');
+        if (!gender) {
+          document.getElementById('genderError').classList.remove('hidden');
+          valid = false;
+        } else {
+          document.getElementById('genderError').classList.add('hidden');
+        }
+
+        const mobile = document.getElementById('mobile').value;
+        if (!/^\d{10}$/.test(mobile)) {
+          document.getElementById('mobileError').classList.remove('hidden');
+          valid = false;
+        } else {
+          document.getElementById('mobileError').classList.add('hidden');
+        }
+
+        const pincode = document.getElementById('pincode').value;
+        if (!/^\d{6}$/.test(pincode)) {
+          document.getElementById('pincodeError').classList.remove('hidden');
+          valid = false;
+        } else {
+          document.getElementById('pincodeError').classList.add('hidden');
+        }
+
+        if (valid) {
+          alert('Your form is submitted!');
+          document.getElementById('successMessage').classList.remove('hidden');
+
+  
+          document.getElementById('form').reset();
+
+         
+          const errorMessages = document.querySelectorAll('.error');
+          errorMessages.forEach((msg) => msg.classList.add('hidden'));
+        }
+      });
+
+      document.getElementById('resetButton').addEventListener('click', function () {
+        document.getElementById('form').reset();
+        const errorMessages = document.querySelectorAll('.error');
+        errorMessages.forEach((msg) => msg.classList.add('hidden'));
+        document.getElementById('successMessage').classList.add('hidden');
+      });
+
+    </script>
+
+</body>
+
+</html>

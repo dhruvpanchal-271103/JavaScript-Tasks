@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Tasks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex h-screen bg-gray-600 text-2xl">
+    <!-- Right Sidebar -->
+    <div class="w-1/4 bg-gray-800 text-white p-4 fixed right-0 h-full text-center">
+        <h2 class="text-4xl font-bold my-4">Tools using JS</h2>
+        <ul class="text-xl space-y-12 my-20 text-left ml-20">
+            <li><a href="to-do-list.html" class="hover:text-yellow-400">To-Do List</a></li>
+            <li><a href="calculator.html" class="hover:text-yellow-400">Calculator</a></li>
+            <li><a href="currency-converter.html" class="hover:text-yellow-400">Currency Converter</a></li>
+            <li><a href="clock.html" class="hover:text-yellow-400">Digital Clock</a></li>
+            <li><a href="countdown-timer.html" class="hover:text-yellow-400">Countdown Timer</a></li>
+            <li><a href="stopwatch.html" class="hover:text-yellow-400">Stopwatch</a></li>
+            <li><a href="user-crud.html" class="hover:text-yellow-400">User CRUD</a></li>
+            <li><a href="Form-validation.html" class="hover:text-yellow-400">Form Validation</a></li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="flex flex-col justify-center items-center w-3/4">
+        <h1 class="text-white font-bold text-4xl my-10">Currency Converter</h1>
+        <div id="currency" class="bg-white p-6 border border-2 border-sky-200 rounded-lg shadow-lg w-full max-w-2xl">
+            <label class="text-2xl">Amount to Convert:</label>
+            <input type="number" id="amount" placeholder="Enter amount"
+                class="w-full p-2 text-black mt-2 mb-4 rounded-md border border-gray-300"
+                oninput="toggleConvertButton()">
+
+            <div class="flex justify-between mb-4">
+                <div>
+                    <label class="text-2xl">From</label>
+                    <select id="fromCurrency" class="w-64 p-2 text-black border border-gray-300 rounded-md text-lg">
+                        <option value="">Select One</option>
+                        <option value="USD">USD</option>
+                        <option value="AED">AED</option>
+                        <option value="ARS">ARS</option>
+                        <option value="AUD">AUD</option>
+                        <option value="BGN">BGN</option>
+                        <option value="BRL">BRL</option>
+                        <option value="BSD">BSD</option>
+                        <option value="CAD">CAD</option>
+                        <option value="CHF">CHF</option>
+                        <option value="CLP">CLP</option>
+                        <option value="GBP">GBP</option>
+                        <option value="GTQ">GTQ</option>
+                        <option value="HKD">HKD</option>
+                        <option value="HRK">HRK</option>
+                        <option value="HUF">HUF</option>
+                        <option value="IDR">IDR</option>
+                        <option value="ILS">ILS</option>
+                        <option value="INR">INR</option>
+
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xl">To</label>
+                    <select id="toCurrency" class="w-64 p-2 text-black border border-gray-300 rounded-md text-lg">
+                        <option value="">Select One …</option>
+                        <option value="USD">USD</option>
+                        <option value="AED">AED</option>
+                        <option value="ARS">ARS</option>
+                        <option value="AUD">AUD</option>
+                        <option value="BGN">BGN</option>
+                        <option value="BRL">BRL</option>
+                        <option value="BSD">BSD</option>
+                        <option value="CAD">CAD</option>
+                        <option value="CHF">CHF</option>
+                        <option value="CLP">CLP</option>
+                        <option value="GBP">GBP</option>
+                        <option value="GTQ">GTQ</option>
+                        <option value="HKD">HKD</option>
+                        <option value="HRK">HRK</option>
+                        <option value="HUF">HUF</option>
+                        <option value="IDR">IDR</option>
+                        <option value="ILS">ILS</option>
+                        <option value="INR">INR</option>
+
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex justify-evenly">
+                <button onclick="convertCurrency(event)" id="convertBtn" disabled
+                    class="bg-blue-500 hover:bg-blue-700 py-2 px-10 rounded-md text-white disabled:bg-gray-400 disabled:cursor-not-allowed">Convert</button>
+                <button onclick="resetFields()"
+                    class="bg-blue-500 hover:bg-blue-700 py-2 px-14 rounded-md text-white">Reset</button>
+            </div>
+
+            <h2 class="text-3xl font-bold text-center mt-4">Converted Amount: <span id="convertedAmount"
+                    class="text-green-500">0</span></h2>
+        </div>
+    </div>
+
+    <script>
+        function toggleConvertButton() {
+            const amount = document.getElementById("amount").value;
+            document.getElementById("convertBtn").disabled = amount.trim() === "";
+        }
+
+
+        async function convertCurrency() {
+            const amount = document.getElementById("amount").value;
+            const fromCurrency = document.getElementById("fromCurrency").value;
+            const toCurrency = document.getElementById("toCurrency").value;
+
+            if (!amount || amount <= 0) {
+                alert("Please enter a valid amount");
+                return;
+            }
+
+            const apiUrl = `https://api.exchangerate-api.com/v4/latest/${fromCurrency}`;
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                const rate = data.rates[toCurrency];
+                const convertedAmount = (amount * rate).toFixed(2);
+                document.getElementById("convertedAmount").textContent = convertedAmount;
+            } catch (error) {
+                alert("Error fetching exchange rates. Try again later.");
+            }
+        }
+
+
+        function resetFields() {
+            document.getElementById("amount").value = "";
+            document.getElementById("convertedAmount").textContent = "0";
+            toggleConvertButton();
+        }
+    </script>
+</body>
+
+</html>

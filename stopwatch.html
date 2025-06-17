@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Tasks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex h-screen bg-gray-600">
+
+    <div class="w-1/4 bg-gray-800 text-white p-4 fixed right-0 h-full text-center">
+
+
+        <h2 class="text-4xl font-bold my-4">Tools using JS</h2>
+
+
+        <ul class="text-xl space-y-12 my-20 text-left ml-20">
+            <li><a href="to-do-list.html" class="hover:text-yellow-400">To-Do List</a></li>
+            <li><a href="calculator.html" class="hover:text-yellow-400">Calculator</a></li>
+            <li><a href="currency-converter.html" class="hover:text-yellow-400">Currency Converter</a></li>
+            <li><a href="clock.html" class="hover:text-yellow-400">Digital Clock</a></li>
+            <li><a href="countdown-timer.html" class="hover:text-yellow-400">Countdown Timer</a></li>
+            <li><a href="stopwatch.html" class="hover:text-yellow-400">Stopwatch</a></li>
+            <li><a href="user-crud.html" class="hover:text-yellow-400">User CRUD</a></li>
+            <li><a href="Form-validation.html" class="hover:text-yellow-400">Form Validation</a></li>
+        </ul>
+
+
+    </div>
+
+    <div class="flex flex-col justify-center items-center text-center text-white p-4 w-3/4">
+        <div class="border border-2 p-4">
+
+            <h2 class="text-4xl font-bold mb-2">Stopwatch</h2>
+            <p id="stopwatch" class="text-4xl font-bold mb-4">00 : 00</p>
+            <div class="flex space-x-4">
+
+                <button class="rounded bg-blue-600 px-6 py-2" onclick="startStopwatch()">Start</button>
+                <button class="rounded bg-blue-600 px-6 py-2" onclick="stopStopwatch()">Stop</button>
+                <button class="rounded bg-blue-600 px-6 py-2" onclick="resetStopwatch()">Reset</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let stopwatchInterval;
+        let stopwatchTime = 0;
+
+        function startStopwatch() {
+            clearInterval(stopwatchInterval);
+            stopwatchInterval = setInterval(() => {
+                stopwatchTime++;
+                let minutes = Math.floor(stopwatchTime / 60);
+                let seconds = stopwatchTime % 60;
+                document.getElementById('stopwatch').innerText = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function stopStopwatch() {
+            clearInterval(stopwatchInterval);
+        }
+
+        function resetStopwatch() {
+            clearInterval(stopwatchInterval);
+            stopwatchTime = 0;
+            document.getElementById('stopwatch').innerText = "00 : 00";
+        }
+    </script>
+</body>
+
+</html>

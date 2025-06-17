@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Tasks</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="flex h-screen bg-gray-600 text-2xl">
+   
+    <div class="w-1/4 bg-gray-800 text-white p-4 fixed right-0 h-full text-center">
+        <h2 class="text-4xl font-bold my-4">Tools using JS</h2>
+        <ul class="text-xl space-y-12 my-20 text-left ml-20">
+            <li><a href="to-do-list.html" class="hover:text-yellow-400">To-Do List</a></li>
+            <li><a href="calculator.html" class="hover:text-yellow-400">Calculator</a></li>
+            <li><a href="currency-converter.html" class="hover:text-yellow-400">Currency Converter</a></li>
+            <li><a href="clock.html" class="hover:text-yellow-400">Digital Clock</a></li>
+            <li><a href="countdown-timer.html" class="hover:text-yellow-400">Countdown Timer</a></li>
+            <li><a href="stopwatch.html" class="hover:text-yellow-400">Stopwatch</a></li>
+            <li><a href="user-crud.html" class="hover:text-yellow-400">User CRUD</a></li>
+            <li><a href="Form-validation.html" class="hover:text-yellow-400">Form Validation</a></li>
+        </ul>
+    </div>
+
+
+    <div class="flex flex-col justify-center items-center w-3/4">
+        <h1 class="text-white font-bold text-4xl my-10">Calculator</h1>
+   
+        <div id="calculator" class="bg-white p-4 rounded-lg shadow-lg">
+            <input type="text" placeholder="0" id="display"
+                class="w-full text-right p-2 text-2xl border-2 border-gray-200 mb-4 rounded">
+            <div class="grid grid-cols-4 gap-2 border-2 p-1">
+                <button class="bg-gray-400 text-white p-2 rounded hover:bg-gray-500" onclick="clearDisplay()">C</button>
+                <button class="bg-gray-400 text-white p-2 rounded hover:bg-gray-500"
+                    onclick="appendValue('/')">/</button>
+                <button class="bg-gray-400 text-white p-2 rounded hover:bg-gray-500"
+                    onclick="appendValue('*')">*</button>
+                <button class="bg-gray-400 text-white p-2 rounded hover:bg-gray-500" onclick="backspace()">←</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('7')">7</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('8')">8</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('9')">9</button>
+                <button class="bg-gray-400 text-white p-2 rounded hover:bg-gray-500"
+                    onclick="appendValue('-')">-</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('4')">4</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('5')">5</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('6')">6</button>
+                <button class="bg-gray-400 text-white p-2 rounded hover:bg-gray-500"
+                    onclick="appendValue('+')">+</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('1')">1</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('2')">2</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('3')">3</button>
+                <button class="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 row-span-2"
+                    onclick="calculate()">=</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('0')">0</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('.')">.</button>
+                <button class="bg-gray-700 text-white p-2 rounded hover:bg-gray-800"
+                    onclick="appendValue('%')">%</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        function appendValue(value) {
+            document.getElementById('display').value += value;
+        }
+        document.addEventListener("keydown", function (event) {
+            const allowkeys = "1234567890/*+-%.";
+            if (allowkeys.includes(event.key)) {
+                appendValue(event.key);
+            }
+        });
+
+        function clearDisplay(event) {
+            if (!event || event.key === "Escape") {
+                document.getElementById('display').value = '';
+            }
+        }
+        document.addEventListener("keydown", clearDisplay);
+
+
+        function backspace() {
+            let display = document.getElementById('display');
+            display.value = display.value.slice(0, -1);
+        }
+        document.addEventListener("keydown", function (event) {
+            if (event.key === "Backspace") {
+                backspace();
+            }
+        });
+
+        function calculate(event) {
+            if (!event || event.key === "Enter") {
+                try {
+                    let input = document.getElementById('display').value;
+                    input = input.replace(/(\d+)%/g, "($1/100)");
+
+                    document.getElementById('display').value = new Function(`return ${input}`)();
+                } catch {
+                    document.getElementById('display').value = 'Error';
+                }
+            }
+        }
+
+
+
+    </script>
+</body>
+
+</html>
